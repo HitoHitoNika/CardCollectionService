@@ -61,5 +61,3 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/my-spring-app:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/my-spring-app:${{ steps.meta.outputs.version }}
             ${{ secrets.DOCKERHUB_USERNAME }}/my-spring-app:${{ steps.meta.outputs.combined }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max

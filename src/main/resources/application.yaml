@@ -1,8 +1,14 @@
 spring:
   application:
     name: CardCollectionService
+  threads:
+    virtual:
+      enabled: true
+
+
 app:
   imports:
     ygo:
       enabled: true
       address: https://db.ygoprodeck.com/api/v7/cardinfo.php
+

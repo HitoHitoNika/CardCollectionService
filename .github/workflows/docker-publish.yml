@@ -48,6 +48,6 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/my-spring-app:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/my-spring-app:${{ steps.meta.outputs.version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/my-spring-app:${{ steps.meta.outputs.combined }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/cardcollecting-service:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/cardcollecting-service:${{ steps.meta.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/cardcollecting-service:${{ steps.meta.outputs.combined }}

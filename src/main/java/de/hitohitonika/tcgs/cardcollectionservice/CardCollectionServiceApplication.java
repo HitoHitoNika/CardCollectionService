@@ -13,7 +13,7 @@ public class CardCollectionServiceApplication {
          var orchestrator = context.getBean(ImportOrchestrator.class);
 
          //Wenn Datensätze exisitieren sollten bei einem Neustart keine neuen importiert werden
-         if(orchestrator.didImportAlreadyRun()){
+         if(!orchestrator.didImportAlreadyRun()){
             orchestrator.runAllImports();
          }
 

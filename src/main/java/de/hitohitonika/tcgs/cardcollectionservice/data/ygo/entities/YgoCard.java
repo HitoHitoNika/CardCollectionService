@@ -1,4 +1,4 @@
-package de.hitohitonika.tcgs.cardcollectionservice.ygo.entities;
+package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,8 +1,8 @@
-package de.hitohitonika.tcgs.cardcollectionservice.ygo.services;
+package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.services;
 
 import de.hitohitonika.tcgs.cardcollectionservice.importers.YgoImportData;
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.entities.YgoCard;
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.entities.YgoSet;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities.YgoCard;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities.YgoSet;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

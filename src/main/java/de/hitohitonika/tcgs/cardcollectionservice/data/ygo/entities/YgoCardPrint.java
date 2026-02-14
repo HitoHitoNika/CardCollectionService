@@ -1,5 +1,6 @@
-package de.hitohitonika.tcgs.cardcollectionservice.ygo.entities;
+package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class YgoCardPrint {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id")
+    @JsonIgnore
     private YgoCard originalCard;
 
     private String cardNumber;

@@ -1,8 +1,8 @@
 package de.hitohitonika.tcgs.cardcollectionservice.importers;
 
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.entities.YgoCard;
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.entities.YgoCardPrint;
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.entities.YgoSet;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities.YgoCard;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities.YgoCardPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities.YgoSet;
 
 import java.util.List;
 

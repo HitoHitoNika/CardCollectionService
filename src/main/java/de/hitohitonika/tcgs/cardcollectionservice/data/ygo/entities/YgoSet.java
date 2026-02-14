@@ -1,5 +1,6 @@
-package de.hitohitonika.tcgs.cardcollectionservice.ygo.entities;
+package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,6 @@ public class YgoSet {
     private String setCode;
 
     @OneToMany(mappedBy = "set", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<YgoCardPrint> prints;
 }

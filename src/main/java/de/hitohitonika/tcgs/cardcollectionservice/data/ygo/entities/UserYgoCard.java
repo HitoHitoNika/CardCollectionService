@@ -1,5 +1,6 @@
-package de.hitohitonika.tcgs.cardcollectionservice.ygo.entities;
+package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities;
 
+import de.hitohitonika.tcgs.cardcollectionservice.data.CardCondition;
 import de.hitohitonika.tcgs.cardcollectionservice.user.AppUser;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,6 +17,8 @@ public class UserYgoCard {
     private Long id;
 
     private int amount;
+
+    private CardCondition condition;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "card_print_id")

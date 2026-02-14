@@ -1,7 +1,7 @@
-package de.hitohitonika.tcgs.cardcollectionservice.ygo.controller;
+package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.controller;
 
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.entities.YgoCard;
-import de.hitohitonika.tcgs.cardcollectionservice.ygo.services.YgoService;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.dtos.YgoCardDto;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.services.YgoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,9 @@ public class YgoController {
     }
 
     @GetMapping("/cards")
-    public ResponseEntity<List<YgoCard>> getCards() {
-        return ResponseEntity.ok(ygoService.getCards());
+    public ResponseEntity<List<YgoCardDto>> getCards() {
+        return ResponseEntity.ok(
+                YgoCardDto.fromListOfEntities(ygoService.getCards())
+        );
     }
 }

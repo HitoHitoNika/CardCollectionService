@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cardcollection
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U username -d cardcollection"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgAdmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-ui
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  app:
+    build:
+      context: .
+      args:
+        ### TODO: Dynamisch befüllbar?
+        JAR_FILE: target/CardCollectionService-0.0.1-SNAPSHOT.jar
+    container_name: card-collection-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/cardcollection
+      SPRING_DATASOURCE_USERNAME: username
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      LOGGING_LEVEL_ROOT: TRACE
+    depends_on:
+      db:
+        condition: service_healthy

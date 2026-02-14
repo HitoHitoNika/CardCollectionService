@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -25,26 +24,12 @@ public class YgoService {
 
     private final YgoSetRepository ygoSetRepository;
 
+    public boolean doEntriesExist() {
+        return ygoCardRepository.count() > 0;
+    }
+
     public List<YgoCard> getCards() {
         return ygoCardRepository.findAll();
-    }
-
-    public Optional<YgoCard> findCardById(Long id) {
-        return ygoCardRepository.findById(id);
-    }
-
-    @Transactional
-    public YgoCard saveCard(YgoCard ygoCard) {
-        return ygoCardRepository.save(ygoCard);
-    }
-
-    public Optional<YgoSet> findSetById(Long id) {
-        return ygoSetRepository.findById(id);
-    }
-
-    @Transactional
-    public YgoSet saveSet(YgoSet ygoSet) {
-        return ygoSetRepository.save(ygoSet);
     }
 
     @Transactional
@@ -72,7 +57,7 @@ public class YgoService {
                         }
 
                         final String finalCode = determinedCode;
-                        set = setCache.computeIfAbsent(setName, name -> {
+                        set = setCache.computeIfAbsent(setName, _ -> {
                             var newSet = rawSet.basicYgoSet(finalCode);
                             newEntries.getAndIncrement();
                             return ygoSetRepository.save(newSet);

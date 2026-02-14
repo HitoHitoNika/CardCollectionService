@@ -43,7 +43,7 @@ public class YgoImporter implements DataImporter {
     }
 
     @Override
-    public boolean supports(DataTypes category) {
-        return category == DataTypes.YGO;
+    public boolean didImportRun() {
+        return ygoService.doEntriesExist();
     }
 }

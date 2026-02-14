@@ -7,4 +7,4 @@ USER spring:spring
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
 
-ENTRYPOINT ["java", "-XX:+UseZGC", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-XX:+UseZGC", "-jar", "app.jar"]

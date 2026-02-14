@@ -32,7 +32,7 @@ public record YgoImportData(List<RawYgoCard> data) {
             card.setId(id);
             card.setName(name);
             card.setType(type);
-            card.setDesc(desc);
+            card.setDescription(desc);
             card.setArchetype(archetype);
             card.setYgodeckproURL(ygoprodeck_url);
 
@@ -51,16 +51,6 @@ public record YgoImportData(List<RawYgoCard> data) {
             String set_rarity_code,
             String set_price
     ){
-
-        public YgoSet basicYgoSet() {
-            var set = new YgoSet();
-            IO.println(set_code);
-            set.setSetCode(set_code.split("-")[0]);
-            set.setSetName(set_name);
-
-            return set;
-        }
-
         public YgoSet basicYgoSet(String code) {
             var set = new YgoSet();
             set.setSetCode(code);

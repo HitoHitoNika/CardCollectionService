@@ -1,4 +1,4 @@
-package de.hitohitonika.tcgs.cardcollectionservice.user;
+package de.hitohitonika.tcgs.cardcollectionservice.data.user;
 
 import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities.UserYgoCard;
 import jakarta.persistence.*;

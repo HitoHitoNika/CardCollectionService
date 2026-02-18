@@ -1,7 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.ygo.entities;
 
 import de.hitohitonika.tcgs.cardcollectionservice.data.CardCondition;
-import de.hitohitonika.tcgs.cardcollectionservice.user.AppUser;
+import de.hitohitonika.tcgs.cardcollectionservice.data.user.AppUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

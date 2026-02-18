@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("/ygo")
+@RestController
+@RequestMapping("ygo")
 public class YgoController {
 
     private final YgoService ygoService;
@@ -20,7 +22,7 @@ public class YgoController {
         this.ygoService = ygoService;
     }
 
-    @GetMapping("/cards")
+    @GetMapping("cards")
     public ResponseEntity<List<YgoCardDto>> getCards() {
         return ResponseEntity.ok(
                 YgoCardDto.fromListOfEntities(ygoService.getCards())

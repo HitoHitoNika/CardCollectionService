@@ -16,9 +16,19 @@ logging:
   level:
     root: INFO
 
+
+server:
+  servlet:
+    context-path: /api
+
 app:
   imports:
     ygo:
       enabled: true
       address: https://db.ygoprodeck.com/api/v7/cardinfo.php
-
+    op:
+      enabled: true
+      address: https://google.com
+    magic:
+      enabled: true
+      address: https://google.com

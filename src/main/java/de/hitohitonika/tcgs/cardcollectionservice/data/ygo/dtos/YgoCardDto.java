@@ -9,8 +9,8 @@ public record YgoCardDto(
         String name,
         String type,
         String description,
-        String archetype
-        //String image <- Muss zu nem actuall Bild gemacht werden
+        String archetype,
+        String imageUrl
 ) {
     public static YgoCardDto fromEntity(YgoCard ygoCard) {
         return new YgoCardDto(
@@ -18,7 +18,8 @@ public record YgoCardDto(
                 ygoCard.getName(),
                 ygoCard.getType(),
                 ygoCard.getDescription(),
-                ygoCard.getArchetype()
+                ygoCard.getArchetype(),
+                ygoCard.getImage()
         );
     }
 

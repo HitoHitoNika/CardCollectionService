@@ -37,7 +37,7 @@ public record YgoImportData(List<RawYgoCard> data) {
             card.setYgodeckproURL(ygoprodeck_url);
 
             if (card_images != null && !card_images.isEmpty()) {
-                card.setImage(card_images.getFirst().image_url());
+                card.setImage(card_images.getFirst().image_url_small());
             }
 
             return card;

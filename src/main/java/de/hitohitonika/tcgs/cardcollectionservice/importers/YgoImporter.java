@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.importers;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.services.YgoService;
+import de.hitohitonika.tcgs.cardcollectionservice.data.ygo.db.YgoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

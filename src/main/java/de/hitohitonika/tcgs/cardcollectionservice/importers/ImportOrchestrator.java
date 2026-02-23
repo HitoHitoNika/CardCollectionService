@@ -18,6 +18,8 @@ public class ImportOrchestrator {
     }
 
     public void runAllImports() {
-        importers.forEach(DataImporter::importData);
+        for (DataImporter importer : importers) {
+            Thread.startVirtualThread(importer::importData);
+        }
     }
 }

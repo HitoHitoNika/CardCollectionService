@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.general.ApplicationConfiguration;
+import de.hitohitonika.tcgs.cardcollectionservice.data.configuration.ApplicationConfiguration;
 import de.hitohitonika.tcgs.cardcollectionservice.importers.ImportOrchestrator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

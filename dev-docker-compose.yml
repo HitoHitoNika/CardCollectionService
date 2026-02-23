@@ -41,7 +41,7 @@ services:
       SPRING_DATASOURCE_USERNAME: username
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      LOGGING_LEVEL_ROOT: DEBUG
+      LOGGING_LEVEL_ROOT: INFO
     depends_on:
       db:
         condition: service_healthy

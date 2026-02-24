@@ -1,9 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.db.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +10,12 @@ import java.util.List;
 @Getter
 @Setter
 public class OpSet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @OneToMany(mappedBy = "set", cascade = CascadeType.ALL)
     List<OpCard> cards;
-    @Id
+    @Column(unique = true)
     private String setId;
     private String setName;
 }

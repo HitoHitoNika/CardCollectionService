@@ -1,9 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.db.services;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.YgoCard;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.YgoCardPrint;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.YgoSet;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.YgoSetLookup;
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.*;
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.SetLookup;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.repositories.YgoCardPrintRepository;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.repositories.YgoCardRepository;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.repositories.YgoSetRepository;
@@ -28,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class YgoService {
+public class YgoService implements TcgService<YgoCardPrint> {
 
     public static final Map<String, String> SORT_MAPPING = Map.of(
             "name", "originalCard.name",
@@ -45,6 +43,11 @@ public class YgoService {
 
     private final YgoCardPrintRepository ygoCardPrintRepository;
 
+    @Override
+    public GameType getGameType() {
+        return GameType.YGO;
+    }
+
     public boolean doEntriesExist() {
         return ygoCardRepository.count() > 0;
     }
@@ -58,6 +61,7 @@ public class YgoService {
         return ygoCardRepository.findAll(spec);
     }
 
+    @Override
     public Page<YgoCardPrint> getPrints(String name, String type, Long setId, int page, int size, String sortBy, String sortDirection) {
         String jpaField = SORT_MAPPING.getOrDefault(sortBy, "set.setCode");
         Sort.Direction dir = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -81,14 +85,12 @@ public class YgoService {
         return ygoCardPrintRepository.findAll(spec, pageable);
     }
 
-    /**
-     * Sucht alle Sets in alphabetischer Reihenfolge
-     * @return YgoSetLookup Liste mit Set Name und Set Id
-     */
-    public List<YgoSetLookup> getBasicSetInfo() {
+    @Override
+    public List<SetLookup> getBasicSetInfo() {
         return ygoSetRepository.findAllSetNamesAndIds();
     }
 
+    @Override
     public List<String> getCardTypes(){
         return ygoCardRepository.findAllDistinctTypes();
     }
@@ -156,5 +158,10 @@ public class YgoService {
 
         log.info("Import finished: {} new cards, {} new prints, {} new sets created.",
                 cardsCreated.get(), printsAdded.get(), setsCreated.get());
+    }
+
+    @Override
+    public List<String> getSortMappingKeys() {
+        return new ArrayList<>(SORT_MAPPING.keySet());
     }
 }

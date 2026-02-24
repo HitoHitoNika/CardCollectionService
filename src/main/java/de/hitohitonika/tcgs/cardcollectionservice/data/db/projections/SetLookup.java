@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.db.projections;
 
-public interface YgoSetLookup {
+public interface SetLookup {
     Long getId();
     String getSetName();
 }

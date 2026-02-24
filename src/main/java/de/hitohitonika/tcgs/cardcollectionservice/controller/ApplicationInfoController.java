@@ -1,7 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.controller;
 
 import de.hitohitonika.tcgs.cardcollectionservice.data.configuration.ApplicationConfiguration;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameTypes;
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class ApplicationInfoController {
     }
 
     @GetMapping("availableGames")
-    public ResponseEntity<List<GameTypes>> getAvailableGames() {
+    public ResponseEntity<List<GameType>> getAvailableGames() {
         return ResponseEntity.ok(config.getEnabled());
     }
 }

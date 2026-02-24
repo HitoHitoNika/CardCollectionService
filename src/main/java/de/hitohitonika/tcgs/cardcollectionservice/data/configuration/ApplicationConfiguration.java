@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.configuration;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameTypes;
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
@@ -14,10 +14,10 @@ public record ApplicationConfiguration(Map<String, ImportDetail> imports) {
             String address
     ) {}
 
-    public List<GameTypes> getEnabled() {
-        List<GameTypes> result = new ArrayList<>();
+    public List<GameType> getEnabled() {
+        List<GameType> result = new ArrayList<>();
 
-        for (GameTypes gameType : GameTypes.values()) {
+        for (GameType gameType : GameType.values()) {
             if (imports.containsKey(gameType.key)) {
                 var importInfo = imports.get(gameType.key);
 

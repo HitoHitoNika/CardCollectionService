@@ -4,7 +4,7 @@ import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.YgoCard;
 
 import java.util.List;
 
-public record YgoCardDto(
+public record YgoCardDto (
         Long id,
         String name,
         String type,

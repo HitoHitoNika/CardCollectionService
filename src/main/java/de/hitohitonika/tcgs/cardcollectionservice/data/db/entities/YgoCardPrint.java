@@ -1,6 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgPrintDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class YgoCardPrint {
+public class YgoCardPrint implements TCGPrint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,4 +28,15 @@ public class YgoCardPrint {
     private String cardNumber;
 
     private String rarity;
+
+    @Override
+    public TcgPrintDto toDto() {
+        return new TcgPrintDto(
+                getOriginalCard().getName(),
+                getSet().getSetName(),
+                getOriginalCard().getImage(),
+                getRarity(),
+                getSet().getSetCode() + '-' + getCardNumber()
+        );
+    }
 }

@@ -28,7 +28,7 @@ public class YgoCard {
     private String image;
 
     @OneToMany(mappedBy = "originalCard", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<YgoCardPrint> prints;
+    private List<YgoCardPrint> prints = new ArrayList<>();
 
     public void addPrint(YgoCardPrint print) {
         if (this.prints == null) this.prints = new ArrayList<>();

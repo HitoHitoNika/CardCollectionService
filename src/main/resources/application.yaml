@@ -9,7 +9,8 @@ spring:
     username: ${DB_USER:myuser}
     password: ${DB_PASSWORD:mypassword}
     hikari:
-      maximum-pool-size: 20
+      maximum-pool-size: 30
+      minimum-idle: 5
   jpa:
     hibernate:
       ddl-auto: update
@@ -41,3 +42,12 @@ app:
     magic:
       enabled: true
       address: https://google.com
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health

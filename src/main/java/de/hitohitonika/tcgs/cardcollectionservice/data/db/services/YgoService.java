@@ -22,8 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -97,54 +96,65 @@ public class YgoService {
     @Transactional
     public void importData(YgoImportData importData) {
         Map<String, YgoSet> setCache = ygoSetRepository.findAll()
-                .stream().collect(Collectors.toMap(YgoSet::getSetCode, s -> s));
+                .stream()
+                .collect(Collectors.toMap(YgoSet::getSetName, s -> s));
 
-        AtomicInteger newEntries = new AtomicInteger(0);
+        Set<String> existingCardNames = new HashSet<>(ygoCardRepository.findAllCardNames());
+
+        AtomicInteger cardsCreated = new AtomicInteger(0);
+        AtomicInteger printsAdded = new AtomicInteger(0);
+        AtomicInteger setsCreated = new AtomicInteger(0);
+
+        List<YgoCard> newCards = new ArrayList<>();
+        List<YgoSet> setsToSave = new ArrayList<>();
 
         importData.data().forEach(rawCard -> {
-            var card = rawCard.basicYgoCard();
-
             if (rawCard.card_sets() != null) {
-                rawCard.card_sets().forEach(rawSet -> {
-                    String setName = rawSet.set_name();
-                    YgoSet set = setCache.get(setName);
-
-                    if (set == null) {
-                        String determinedCode = "BadData-UNKNOWN";
-
-                        if (rawSet.set_code().contains("-")) {
-                            determinedCode = rawSet.set_code().split("-")[0];
-                        } else {
-                            log.info("Bad Entry found [{}]", rawSet.set_code());
-                        }
-
-                        final String finalCode = determinedCode;
-                        set = setCache.computeIfAbsent(setName, _ -> {
-                            var newSet = rawSet.basicYgoSet(finalCode);
-                            newEntries.getAndIncrement();
-                            return ygoSetRepository.save(newSet);
-                        });
+                for (var rawSet : rawCard.card_sets()) {
+                    if (!setCache.containsKey(rawSet.set_name())) {
+                        String code = rawSet.set_code().contains("-") ? rawSet.set_code().split("-")[0] : "UNKNOWN";
+                        YgoSet newSet = rawSet.basicYgoSet(code);
+                        setCache.put(newSet.getSetName(), newSet);
+                        setsToSave.add(newSet);
+                        setsCreated.incrementAndGet();
                     }
-
-                    if (set.getSetCode().startsWith("BadData") && rawSet.set_code().contains("-")) {
-                        set.setSetCode(rawSet.set_code().split("-")[0]);
-                        ygoSetRepository.save(set);
-                    }
-
-                    var print = rawSet.basicYgoCardPrint();
-
-                    if(print.getCardNumber().equalsIgnoreCase(rawSet.set_code())){
-                        log.warn("Invalid set_code found [{}]", print.getCardNumber());
-                    }
-
-                    print.setSet(set);
-                    card.addPrint(print);
-                });
+                }
             }
-            newEntries.getAndIncrement();
-            ygoCardRepository.save(card);
         });
 
-        log.info("Finished importing [{}] Yugioh Data Entries!",newEntries.get());
+        if (!setsToSave.isEmpty()) ygoSetRepository.saveAll(setsToSave);
+
+        importData.data().forEach(rawCard -> {
+            YgoCard card;
+            boolean isNew = !existingCardNames.contains(rawCard.name());
+
+            if (isNew) {
+                card = rawCard.basicYgoCard();
+                cardsCreated.incrementAndGet();
+                newCards.add(card);
+            } else {
+                card = ygoCardRepository.findByNameWithPrints(rawCard.name())
+                        .orElse(rawCard.basicYgoCard());
+            }
+
+            if (rawCard.card_sets() != null) {
+                for (var rawSet : rawCard.card_sets()) {
+                    YgoSet set = setCache.get(rawSet.set_name());
+                    var newPrint = rawSet.basicYgoCardPrint();
+
+                    // Print-Duplikate checken
+                    if (card.getPrints().stream().noneMatch(p -> p.getCardNumber().equals(newPrint.getCardNumber()))) {
+                        newPrint.setSet(set);
+                        card.addPrint(newPrint);
+                        printsAdded.incrementAndGet();
+                    }
+                }
+            }
+        });
+
+        ygoCardRepository.saveAll(newCards);
+
+        log.info("Import finished: {} new cards, {} new prints, {} new sets created.",
+                cardsCreated.get(), printsAdded.get(), setsCreated.get());
     }
 }

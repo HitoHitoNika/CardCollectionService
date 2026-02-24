@@ -8,9 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -20,26 +18,27 @@ public class OpService {
     private final OpCardRepository opCardRepository;
 
     @Transactional
-    public OpSet saveIfNotExist(OpSet opSet) {
-        if (!opSetRepository.existsById(opSet.getSetId())) {
-            return opSetRepository.save(opSet);
+    public Map<String, Integer> importEverything(List<OpSet> sets, List<OpCard> cards) {
+        opSetRepository.saveAll(sets.stream().distinct().toList());
+
+        Set<String> seenInThisRun = new HashSet<>(opCardRepository.findAllCardCompositeKeys());
+
+        List<OpCard> newCards = new ArrayList<>();
+
+        for (OpCard c : cards) {
+            // TRIPLE-KEY für maximale Sicherheit
+            String key = (c.getCardCode() + "_" + c.getName() + "_" + c.getRarity()).toLowerCase();
+
+            if (!seenInThisRun.contains(key)) {
+                newCards.add(c);
+                seenInThisRun.add(key);
+            }
         }
-        return opSet;
-    }
-
-    @Transactional
-    public void saveAll(List<OpCard> opCards) {
-        Set<String> existingCards = opCardRepository.findAll()
-                .stream()
-                .map(opCard -> opCard.getCardCode() + opCard.getRarity())
-                .collect(Collectors.toSet());
-
-        List<OpCard> newCards = opCards.stream()
-                .filter(c -> !existingCards.contains(c.getCardCode() + c.getRarity()))
-                .toList();
 
         if (!newCards.isEmpty()) {
             opCardRepository.saveAll(newCards);
         }
+
+        return Map.of("newCards", newCards.size(), "newSets", sets.size());
     }
 }

@@ -17,9 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @ConditionalOnBooleanProperty(
@@ -45,103 +43,69 @@ public class OpImporter implements DataImporter {
 
     @Override
     public void importData() throws ImportException {
-        log.info("Importing op data...");
-
-        Map<String, OpSet> knownSets;
+        log.info("Importing OP data...");
 
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            var futures = Stream.of(SetEndpoint.values())
-                    .map(endpoint -> executor.submit(() -> importSets(endpoint)))
+            var setFutures = Arrays.stream(SetEndpoint.values())
+                    .map(e -> executor.submit(() -> fetchSets(e)))
                     .toList();
 
-            knownSets = futures.stream()
-                    .map(future -> {
-                        try {
-                            return future.get();
-                        } catch (Exception e) {
-                            throw new RuntimeException("Fehler beim Import eines Endpoints", e);
-                        }
-                    })
-                    .flatMap(List::stream)
-                    .collect(Collectors.toMap(
-                            OpSet::getSetName,
-                            opSet -> opSet,
-                            (existing, _) -> existing
-                    ));
+            List<OpSet> allSets = setFutures.stream()
+                    .flatMap(f -> getFutureResult(f).stream())
+                    .toList();
+
+            Map<String, OpSet> setCache = allSets.stream()
+                    .collect(Collectors.toMap(OpSet::getSetName, s -> s, (s1, _) -> s1));
+
+            var cardFutures = Arrays.stream(CardEndpoint.values())
+                    .map(e -> executor.submit(() -> fetchCards(e, setCache)))
+                    .toList();
+
+            List<OpCard> allCards = cardFutures.stream()
+                    .flatMap(f -> getFutureResult(f).stream())
+                    .toList();
+
+            var stats = opService.importEverything(allSets, allCards);
+
+            log.info("Import finished: {} new cards, {} sets processed.",
+                    stats.get("newCards"), stats.get("newSets"));
+
+        } catch (Exception e) {
+            throw new ImportException("OP Import failed: " + e.getMessage());
         }
+    }
 
-        var newCards = new AtomicInteger(0);
-        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    private List<OpSet> fetchSets(SetEndpoint endpoint) {
+        var data = restClient.get().uri(endpoint.path).retrieve()
+                .body(new ParameterizedTypeReference<List<OPSetImportData>>() {
+                });
+        return data == null ? List.of() : data.stream().map(OPSetImportData::toEntity).toList();
+    }
 
-            var futures = Arrays.stream(CardEndpoint.values())
-                    .map(cardEndpoint -> executor.submit(() -> importCards(cardEndpoint, knownSets, newCards)))
-                    .toList();
+    private List<OpCard> fetchCards(CardEndpoint endpoint, Map<String, OpSet> setCache) {
+        var data = restClient.get().uri(endpoint.path).retrieve()
+                .body(new ParameterizedTypeReference<List<OPCardImportData>>() {
+                });
+        if (data == null) return List.of();
 
-            var fetchedCards = futures.stream()
-                    .map(future -> {
-                        try {
-                            return future.get();
-                        } catch (Exception e) {
-                            log.error("Fehler beim Import eines Cards", e);
-                            throw new RuntimeException("Fehler beim Import eines Endpoints", e);
-                        }
-                    })
-                    .flatMap(List::stream)
-                    .toList();
+        return data.stream().map(d -> {
+            OpCard entity = OPCardImportData.toEntity(d);
+            entity.setSet(setCache.get(d.set_name()));
+            return entity;
+        }).toList();
+    }
 
-            opService.saveAll(fetchedCards);
-
-        } catch (RuntimeException e) {
-            throw new ImportException("Der parallele Import ist fehlgeschlagen: " + e.getMessage());
+    private <T> T getFutureResult(java.util.concurrent.Future<T> future) {
+        try {
+            return future.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        log.info("Successfully imported {} op cards", newCards.get());
     }
 
     @Override
     public boolean didImportRun() {
         return false;
-    }
-
-    private List<OpSet> importSets(SetEndpoint setEndpoint) throws ImportException {
-        var importData = this.restClient.get()
-                .uri(setEndpoint.path)
-                .retrieve()
-                .body(new ParameterizedTypeReference<List<OPSetImportData>>() {
-                });
-
-        if (importData == null) {
-            log.error("Endpoint {} returned null body", setEndpoint.path);
-            throw new ImportException("Fehler beim Import eines Endpoints");
-        }
-
-        return importData.stream()
-                .map(OPSetImportData::toEntity)
-                .map(opService::saveIfNotExist)
-                .toList();
-    }
-
-    private List<OpCard> importCards(CardEndpoint cardEndpoint, Map<String, OpSet> knownSets, AtomicInteger counter) throws ImportException {
-        var importData = this.restClient.get()
-                .uri(cardEndpoint.path)
-                .retrieve()
-                .body(new ParameterizedTypeReference<List<OPCardImportData>>() {
-                });
-
-        if (importData == null) {
-            log.error("Endpoint {} returned null body for cards", cardEndpoint.path);
-            throw new ImportException("Fehler beim Import eines Endpoints");
-        }
-
-        return importData.stream()
-                .map(importedCard -> {
-                    var opCard = OPCardImportData.toEntity(importedCard);
-
-                    opCard.setSet(knownSets.get(importedCard.set_name()));
-                    counter.getAndIncrement();
-                    return opCard;
-                })
-                .toList();
     }
 
     private enum CardEndpoint {

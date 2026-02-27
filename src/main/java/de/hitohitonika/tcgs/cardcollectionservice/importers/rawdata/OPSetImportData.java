@@ -13,7 +13,7 @@ public record OPSetImportData(
         var opSet = new OpSet();
 
         opSet.setSetName(opSetImportData.set_name);
-        opSet.setSetId(opSetImportData.set_id);
+        opSet.setSetCode(opSetImportData.set_id);
 
         return opSet;
     }

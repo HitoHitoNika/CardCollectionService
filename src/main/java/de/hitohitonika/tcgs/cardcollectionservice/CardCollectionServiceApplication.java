@@ -15,7 +15,7 @@ public class CardCollectionServiceApplication {
 
          var orchestrator = context.getBean(ImportOrchestrator.class);
 
-         //Wenn Datensätze existieren sollten bei einem Neustart keine neuen importiert werden
+         //When data already exists the import shouldn't run on startup
          if(!orchestrator.didImportAlreadyRun()){
             orchestrator.runAllImports();
          }

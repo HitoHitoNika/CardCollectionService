@@ -33,7 +33,8 @@ public class OpCard implements TCGPrint{
                 getSet() != null ? getSet().getSetName() : null,
                 getImage(),
                 getRarity(),
-                getCardCode()
+                getCardCode(),
+                getId()
         );
     }
 }

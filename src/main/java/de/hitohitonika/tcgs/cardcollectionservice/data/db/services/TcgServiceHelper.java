@@ -27,7 +27,7 @@ public class TcgServiceHelper {
     public TcgService<? extends TCGPrint> getService(GameType gameType) {
         var service = serviceMap.get(gameType);
         if (service == null) {
-            throw new IllegalArgumentException("Kein Service für TCG gefunden: " + gameType);
+            throw new IllegalArgumentException("No Service for TCG Type found: " + gameType);
         }
         return service;
     }

@@ -5,5 +5,6 @@ public record TcgPrintDto (
         String setName,
         String imageUrl,
         String rarity,
-        String cardCode
+        String cardCode,
+        long cardId
 ) {}

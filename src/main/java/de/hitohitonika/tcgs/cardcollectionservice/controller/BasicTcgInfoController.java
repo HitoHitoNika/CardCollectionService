@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This Controller represents all common endpoints the tcgs have.
+ * The TCGs need to define an TcgPrintDTO and the service needs to be registered in the tcgServiceHelper.
+ */
 @RestController
 @RequiredArgsConstructor
 public class BasicTcgInfoController {

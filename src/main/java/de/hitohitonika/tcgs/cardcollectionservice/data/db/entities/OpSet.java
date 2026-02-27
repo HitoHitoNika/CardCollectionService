@@ -16,6 +16,6 @@ public class OpSet {
     @OneToMany(mappedBy = "set", cascade = CascadeType.ALL)
     List<OpCard> cards;
     @Column(unique = true)
-    private String setId;
+    private String setCode;
     private String setName;
 }

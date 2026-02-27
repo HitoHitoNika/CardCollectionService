@@ -42,7 +42,7 @@ public class OpImporter implements DataImporter {
 
 
     @Override
-    public void importData() throws ImportException {
+    public void importData() {
         log.info("Importing OP data...");
 
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
@@ -105,7 +105,7 @@ public class OpImporter implements DataImporter {
 
     @Override
     public boolean didImportRun() {
-        return false;
+        return opService.doEntriesExist();
     }
 
     private enum CardEndpoint {

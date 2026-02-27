@@ -33,6 +33,10 @@ public class OpService implements TcgService<OpCard> {
             "cardCode", "cardCode"
     );
 
+    public boolean doEntriesExist() {
+        return opCardRepository.count() > 0;
+    }
+
     @Override
     public GameType getGameType() {
         return GameType.OP;

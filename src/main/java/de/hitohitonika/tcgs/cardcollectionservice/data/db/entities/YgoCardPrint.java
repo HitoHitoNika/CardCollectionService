@@ -36,7 +36,8 @@ public class YgoCardPrint implements TCGPrint {
                 getSet().getSetName(),
                 getOriginalCard().getImage(),
                 getRarity(),
-                getSet().getSetCode() + '-' + getCardNumber()
+                getSet().getSetCode() + '-' + getCardNumber(),
+                getOriginalCard().getId()
         );
     }
 }

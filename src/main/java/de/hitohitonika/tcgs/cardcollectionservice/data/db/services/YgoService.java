@@ -145,7 +145,9 @@ public class YgoService implements TcgService<YgoCardPrint> {
                     var newPrint = rawSet.basicYgoCardPrint();
 
                     // Print-Duplikate checken
-                    if (card.getPrints().stream().noneMatch(p -> p.getCardNumber().equals(newPrint.getCardNumber()))) {
+                    if (card.getPrints().stream().noneMatch(p ->
+                            p.getCardNumber().equals(newPrint.getCardNumber()) && p.getRarity().equals(newPrint.getRarity())
+                    )) {
                         newPrint.setSet(set);
                         card.addPrint(newPrint);
                         printsAdded.incrementAndGet();

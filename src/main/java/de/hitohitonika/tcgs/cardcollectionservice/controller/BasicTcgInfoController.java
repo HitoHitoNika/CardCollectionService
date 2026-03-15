@@ -1,9 +1,10 @@
 package de.hitohitonika.tcgs.cardcollectionservice.controller;
 
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TCGPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.SetLookup;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.services.TcgServiceHelper;
+import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgCardDto;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgPrintDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,8 +27,26 @@ public class BasicTcgInfoController {
 
     private final TcgServiceHelper tcgServiceHelper;
 
+    @GetMapping("{tcg}/cards/{cardId}")
+    public ResponseEntity<TcgCardDto> getCards(
+            @PathVariable String tcg,
+            @PathVariable long cardId
+    ){
+        var service = tcgServiceHelper.getService(GameType.fromString(tcg));
+
+        var optionalCard = service.getCard(cardId);
+
+        if(optionalCard.isPresent()) {
+            var dto = optionalCard.get().toCardDto();
+
+            return ResponseEntity.ok(dto);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("{tcg}/prints")
-    public ResponseEntity<Page<TcgPrintDto>> getCards(
+    public ResponseEntity<Page<TcgPrintDto>> getPrints(
             @PathVariable String tcg,
             @RequestParam(required = false) Long setId,
             @RequestParam(required = false) String type,
@@ -39,10 +58,10 @@ public class BasicTcgInfoController {
     ) {
         var service = tcgServiceHelper.getService(GameType.fromString(tcg));
 
-        Page<? extends TCGPrint> printPage =
+        Page<? extends TcgPrint> printPage =
                 service.getPrints(nameLike, type, setId, page, size, sortBy, order);
 
-        Page<TcgPrintDto> dtoPage = printPage.map(TCGPrint::toDto);
+        Page<TcgPrintDto> dtoPage = printPage.map(TcgPrint::toPrintDto);
 
         return ResponseEntity.ok(dtoPage);
     }

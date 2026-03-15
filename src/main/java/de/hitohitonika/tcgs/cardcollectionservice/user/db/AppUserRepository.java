@@ -1,0 +1,11 @@
+package de.hitohitonika.tcgs.cardcollectionservice.user.db;
+
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+    @EntityGraph(attributePaths = {"collectedCards"})
+    Optional<AppUser> findByUsername(String username);
+}

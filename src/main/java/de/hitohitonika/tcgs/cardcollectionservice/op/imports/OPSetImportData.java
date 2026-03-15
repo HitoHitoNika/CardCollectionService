@@ -1,0 +1,20 @@
+package de.hitohitonika.tcgs.cardcollectionservice.op.imports;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import de.hitohitonika.tcgs.cardcollectionservice.op.data.entities.OpSet;
+
+public record OPSetImportData(
+        @JsonAlias({"set_name", "structure_deck_name"})
+        String set_name,
+        @JsonAlias({"set_id", "structure_deck_id"})
+        String set_id
+) {
+    public static OpSet toEntity(OPSetImportData opSetImportData) {
+        var opSet = new OpSet();
+
+        opSet.setSetName(opSetImportData.set_name);
+        opSet.setSetCode(opSetImportData.set_id);
+
+        return opSet;
+    }
+}

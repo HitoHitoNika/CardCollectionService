@@ -1,0 +1,45 @@
+package de.hitohitonika.tcgs.cardcollectionservice.user;
+
+import de.hitohitonika.tcgs.cardcollectionservice.user.db.AppUser;
+import de.hitohitonika.tcgs.cardcollectionservice.user.dto.AppUserDto;
+import de.hitohitonika.tcgs.cardcollectionservice.user.db.AppUserService;
+import de.hitohitonika.tcgs.cardcollectionservice.user.dto.CreatePrintDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+
+@RestController
+@RequestMapping("/user")
+@RequiredArgsConstructor
+public class AppUserController {
+    private final AppUserService appUserService;
+
+    @GetMapping("/me")
+    public ResponseEntity<AppUserDto> me(@AuthenticationPrincipal UserDetails userDetails) {
+        var userDto = appUserService.mapToDto(userDetails);
+
+        return ResponseEntity.ok(userDto);
+    }
+
+    @PostMapping("/prints/addPrint")
+    public ResponseEntity<Void> addPrints(@AuthenticationPrincipal UserDetails userDetails, @RequestBody CreatePrintDto createPrintDto) {
+        var print = appUserService.addPrintToUser(userDetails,createPrintDto);
+
+        return ResponseEntity.created(URI.create("/api/user/prints/"+print.getPrintId())).build();
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<AppUserDto> getUser(@PathVariable String username) {
+        AppUser user = appUserService.findByUsername(username);
+
+        var dto = appUserService.mapToDto(user);
+
+        return ResponseEntity.ok(dto);
+    }
+
+
+}

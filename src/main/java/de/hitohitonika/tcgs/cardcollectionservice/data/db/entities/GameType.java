@@ -8,8 +8,8 @@ public enum GameType {
     OP("OnePiece","op"),
     MAGIC("Magic","magic");
 
-    public final String name;
-    public final String key;
+    private final String name;
+    private final String key;
 
     GameType(String name, String key) {
         this.name = name;

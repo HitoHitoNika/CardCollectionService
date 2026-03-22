@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,14 +39,18 @@ public class AppUserService {
     }
 
     @Transactional
-    public AppUserPrint addPrintToUser(UserDetails userDetails, CreatePrintDto createPrintDto) {
+    public void addPrintsToUser(UserDetails userDetails, List<CreatePrintDto> createPrintDtos) {
         var user = findByUsername(userDetails.getUsername());
-        var userPrint = createPrintDto.toEntity();
-        userPrint.setUser(user);
-        user.getCollectedCards().add(userPrint);
-        userPrintRepository.save(userPrint);
-        userRepository.save(user);
-        return userPrint;
+
+        var userPrints = createPrintDtos.stream()
+                .map(print -> {
+                    var userPrint = print.toEntity();
+                    userPrint.setUser(user);
+                    return userPrint;
+                })
+                .toList();
+
+        userPrintRepository.saveAll(userPrints);
     }
 
     public AppUserDto mapToDto(UserDetails userDetails) {

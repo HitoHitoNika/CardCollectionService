@@ -1,5 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.op.data.entities;
 
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgCard;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgCardDto;
@@ -38,7 +39,8 @@ public class OpCard implements TcgPrint, TcgCard {
                 getRarity(),
                 getCardCode(),
                 getId(),
-                getId()
+                getId(),
+                GameType.OP.getKey()
         );
     }
 

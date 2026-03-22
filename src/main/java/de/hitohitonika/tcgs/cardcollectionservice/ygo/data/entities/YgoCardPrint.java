@@ -1,6 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.ygo.data.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgPrintDto;
 import jakarta.persistence.*;
@@ -35,7 +36,8 @@ public class YgoCardPrint implements TcgPrint {
                 getRarity(),
                 getSet().getSetCode() + '-' + getCardNumber(),
                 getOriginalCard().getId(),
-                getId()
+                getId(),
+                GameType.YGO.getKey()
         );
     }
 }

@@ -16,14 +16,18 @@ public class AppUserPrint {
     private AppUser user;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private GameType gameType;
 
+    @Column(nullable = false)
     private long printId;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CardCondition condition;
 
     private String description;
 
+    @Column(nullable = false)
     private int amount;
 }

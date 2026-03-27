@@ -1,8 +1,8 @@
 package de.hitohitonika.tcgs.cardcollectionservice.op.data.entities;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgCard;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgCard;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgCardDto;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgPrintDto;
 import jakarta.persistence.*;

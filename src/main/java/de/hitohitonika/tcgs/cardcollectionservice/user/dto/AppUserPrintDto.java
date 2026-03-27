@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.user.dto;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgPrintDto;
 import de.hitohitonika.tcgs.cardcollectionservice.user.db.AppUserPrint;
 

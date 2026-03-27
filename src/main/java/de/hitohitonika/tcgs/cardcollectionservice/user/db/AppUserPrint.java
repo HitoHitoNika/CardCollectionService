@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.user.db;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
 import jakarta.persistence.*;
 import lombok.Data;
 

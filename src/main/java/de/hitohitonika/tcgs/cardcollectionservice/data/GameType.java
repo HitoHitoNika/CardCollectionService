@@ -1,4 +1,4 @@
-package de.hitohitonika.tcgs.cardcollectionservice.data.db.entities;
+package de.hitohitonika.tcgs.cardcollectionservice.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

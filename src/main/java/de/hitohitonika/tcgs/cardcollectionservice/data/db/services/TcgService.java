@@ -1,8 +1,8 @@
 package de.hitohitonika.tcgs.cardcollectionservice.data.db.services;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgCard;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgCard;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.SetLookup;
 import org.springframework.data.domain.Page;
 

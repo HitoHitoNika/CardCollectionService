@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.op.data;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.*;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.SetLookup;
 import de.hitohitonika.tcgs.cardcollectionservice.op.data.entities.OpCard;
 import de.hitohitonika.tcgs.cardcollectionservice.op.data.entities.OpSet;

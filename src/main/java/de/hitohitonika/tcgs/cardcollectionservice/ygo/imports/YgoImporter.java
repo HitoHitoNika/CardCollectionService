@@ -12,10 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 @Component
-@ConditionalOnBooleanProperty(
-        prefix = "app.imports.ygo",
-        name = "enabled"
-)
 public class YgoImporter implements DataImporter {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 

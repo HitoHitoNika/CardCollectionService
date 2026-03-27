@@ -1,6 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.ygo.data.entities;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgCard;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgCard;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgCardDto;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class YgoCard implements TcgCard {
     @Id
-    private Long id;
+    private long id;
 
     private String name;
 

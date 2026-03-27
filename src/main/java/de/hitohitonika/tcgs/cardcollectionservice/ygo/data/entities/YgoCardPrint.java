@@ -1,8 +1,8 @@
 package de.hitohitonika.tcgs.cardcollectionservice.ygo.data.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgPrintDto;
 import jakarta.persistence.*;
 import lombok.Data;

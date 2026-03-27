@@ -1,7 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.controller;
 
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.TcgPrint;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
+import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.SetLookup;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.services.TcgServiceHelper;
 import de.hitohitonika.tcgs.cardcollectionservice.data.dtos.TcgCardDto;

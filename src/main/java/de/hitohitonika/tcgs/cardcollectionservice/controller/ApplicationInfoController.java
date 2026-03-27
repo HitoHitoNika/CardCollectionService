@@ -1,7 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.controller;
 
 import de.hitohitonika.tcgs.cardcollectionservice.configuration.ImportConfiguration;
-import de.hitohitonika.tcgs.cardcollectionservice.data.db.entities.GameType;
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
 import de.hitohitonika.tcgs.cardcollectionservice.user.db.CardCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

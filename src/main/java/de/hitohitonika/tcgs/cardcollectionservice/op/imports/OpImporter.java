@@ -5,10 +5,8 @@ import de.hitohitonika.tcgs.cardcollectionservice.op.data.entities.OpSet;
 import de.hitohitonika.tcgs.cardcollectionservice.op.data.OpService;
 import de.hitohitonika.tcgs.cardcollectionservice.importers.DataImporter;
 import de.hitohitonika.tcgs.cardcollectionservice.importers.ImportException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -20,13 +18,8 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Component
-@ConditionalOnBooleanProperty(
-        prefix = "app.imports.op",
-        name = "enabled"
-)
+@Slf4j
 public class OpImporter implements DataImporter {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     private final RestClient restClient;
 
     private final OpService opService;

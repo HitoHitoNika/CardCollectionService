@@ -6,8 +6,7 @@ import de.hitohitonika.tcgs.cardcollectionservice.data.db.services.MetadataRepos
 import de.hitohitonika.tcgs.cardcollectionservice.importers.DataImporter;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicCard;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicSet;
-import de.hitohitonika.tcgs.cardcollectionservice.magic.data.services.MagicCardService;
-import de.hitohitonika.tcgs.cardcollectionservice.magic.data.services.MagicSetService;
+import de.hitohitonika.tcgs.cardcollectionservice.magic.data.services.MagicService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -15,9 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import tools.jackson.core.JsonParser;
-import tools.jackson.core.JsonToken;
-import tools.jackson.core.TokenStreamFactory;
 import tools.jackson.databind.MappingIterator;
 import tools.jackson.databind.ObjectMapper;
 
@@ -37,14 +33,13 @@ public class MagicImporter implements DataImporter {
     private RestClient downloadClient;
     private final MetadataRepository metadataRepository;
     private final ObjectMapper objectMapper;
-    private final MagicCardService magicCardService;
-    private final MagicSetService magicSetService;
+    private final MagicService magicService;
 
     private int totalProcessedCards;
 
     MagicImporter(
             @Value("${app.imports.magic.address}") String address, MetadataRepository metadataRepository,
-            MagicCardService magicCardService, MagicSetService magicSetService
+            MagicService magicService
     ) {
         this.restClient = RestClient.builder()
                 .baseUrl(address)
@@ -53,8 +48,7 @@ public class MagicImporter implements DataImporter {
 
         this.metadataRepository = metadataRepository;
         this.objectMapper = new ObjectMapper();
-        this.magicCardService = magicCardService;
-        this.magicSetService = magicSetService;
+        this.magicService = magicService;
     }
 
     @Override
@@ -140,7 +134,7 @@ public class MagicImporter implements DataImporter {
 
         log.info("Caching sets for fast lookup...");
         Map<String, MagicSet> setCache = new HashMap<>();
-        magicSetService.getAll().forEach(set -> setCache.put(set.getImportId(),set));
+        magicService.getAllSets().forEach(set -> setCache.put(set.getImportId(),set));
         log.info("{} sets cached.", setCache.size());
 
         MappingIterator<MagicImportData> iterator = objectMapper
@@ -178,7 +172,7 @@ public class MagicImporter implements DataImporter {
                         cardEntity.setSet(setCache.get(importData.set_id()));
                     } else {
                         var newSet = importData.basicSetEntity();
-                        magicSetService.save(newSet);
+                        magicService.saveSet(newSet);
                         setCache.put(importData.set_id(), newSet);
                         cardEntity.setSet(newSet);
                         log.debug("Found and saved new set: {}", newSet.getName());
@@ -187,7 +181,7 @@ public class MagicImporter implements DataImporter {
                 })
                 .toList();
 
-        magicCardService.saveAll(entities);
+        magicService.saveAll(entities);
         totalProcessedCards += entities.size();
     }
 

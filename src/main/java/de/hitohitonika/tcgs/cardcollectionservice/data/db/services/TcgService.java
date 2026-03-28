@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public interface TcgService<C extends TcgCard,P extends TcgPrint> {
     GameType getGameType();
-    Page<P> getPrints(String nameLike, String type, Long setId, int page, int size, String sortBy, String order);
+    Page<P> getPrints(String nameLike, String type, String setId, int page, int size, String sortBy, String order);
     List<String> getCardTypes();
     List<String> getSortMappingKeys();
     List<SetLookup> getBasicSetInfo();
-    Optional<C> getCard(long id);
-    Optional<P> getPrint(long id);
+    Optional<C> getCard(String id);
+    Optional<P> getPrint(String id);
 }

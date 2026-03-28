@@ -2,8 +2,7 @@ package de.hitohitonika.tcgs.cardcollectionservice.magic.data;
 
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.projections.SetLookup;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicCard;
-import de.hitohitonika.tcgs.cardcollectionservice.magic.data.repositories.MagicCardRepository;
-import de.hitohitonika.tcgs.cardcollectionservice.magic.data.services.MagicCardService;
+import de.hitohitonika.tcgs.cardcollectionservice.magic.data.services.MagicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +15,11 @@ import java.util.List;
 @RequestMapping("magic")
 @RequiredArgsConstructor
 public class MagicController {
-    private final MagicCardService magicCardService;
+    private final MagicService magicService;
 
     @GetMapping("cards/{cardId}")
     public ResponseEntity<MagicCard> getCard(@PathVariable String cardId){
-        var card = magicCardService.getCard(cardId);
+        var card = magicService.getCard(cardId);
 
         return card.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -41,17 +40,17 @@ public class MagicController {
 
     @GetMapping("sets/names")
     public ResponseEntity<List<SetLookup>> getSetNames(){
-        return ResponseEntity.ok(magicCardService.getSetInfo());
+        return ResponseEntity.ok(magicService.getBasicSetInfo());
     }
 
     @GetMapping("cards/types")
     public ResponseEntity<List<String>> getAllCardTypes(){
-        return ResponseEntity.ok(magicCardService.getCardTypes());
+        return ResponseEntity.ok(magicService.getCardTypes());
     }
 
     @GetMapping("cards/sortOptions")
     public ResponseEntity<List<String>> getSortOptions(){
-        var keyList = new ArrayList<>(magicCardService.getSortOptions());
+        var keyList = new ArrayList<>(magicService.getSortMappingKeys());
         return ResponseEntity.ok(keyList);
     }
 }

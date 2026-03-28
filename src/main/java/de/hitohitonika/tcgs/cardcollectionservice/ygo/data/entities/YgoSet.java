@@ -6,13 +6,13 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 public class YgoSet {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String setName;
 
@@ -21,5 +21,9 @@ public class YgoSet {
     @OneToMany(mappedBy = "set", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<YgoCardPrint> prints = new ArrayList<>();
+
+    public YgoSet() {
+        id = UUID.randomUUID().toString();
+    }
 
 }

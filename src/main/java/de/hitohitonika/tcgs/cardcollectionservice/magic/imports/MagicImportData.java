@@ -4,7 +4,6 @@ import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicCard;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicSet;
 
 import java.util.Map;
-import java.util.UUID;
 
 public record MagicImportData(
         String object,
@@ -19,7 +18,7 @@ public record MagicImportData(
 ) {
     public MagicCard basicCardEntity(){
         var entity = new MagicCard();
-        entity.setImportId(UUID.fromString(id));
+        entity.setImportId(id);
         entity.setName(name);
         entity.setRarity(rarity);
         entity.setManaCost(mana_cost);

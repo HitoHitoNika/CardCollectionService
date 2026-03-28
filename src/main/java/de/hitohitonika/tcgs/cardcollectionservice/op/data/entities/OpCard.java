@@ -9,16 +9,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 public class OpCard implements TcgPrint, TcgCard {
-    @ManyToOne
-    @JoinColumn(name = "set_id")
-    OpSet set;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
     private String cardCode;
     private String name;
     @Column(columnDefinition = "TEXT")
@@ -29,6 +26,14 @@ public class OpCard implements TcgPrint, TcgCard {
     private String image;
 
     private String dateScrapped;
+
+    @ManyToOne
+    @JoinColumn(name = "set_id")
+    OpSet set;
+
+    public OpCard() {
+        id = UUID.randomUUID().toString();
+    }
 
     @Override
     public TcgPrintDto toPrintDto() {

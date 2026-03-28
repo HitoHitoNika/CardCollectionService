@@ -20,7 +20,7 @@ public class AppUserPrint {
     private GameType gameType;
 
     @Column(nullable = false)
-    private long printId;
+    private String printId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

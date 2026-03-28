@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface YgoCardRepository extends JpaRepository<YgoCard, Long>, JpaSpecificationExecutor<YgoCard> {
+public interface YgoCardRepository extends JpaRepository<YgoCard, String>, JpaSpecificationExecutor<YgoCard> {
     @Query("SELECT DISTINCT c.type FROM YgoCard c WHERE c.type IS NOT NULL ORDER BY c.type ASC")
     List<String> findAllDistinctTypes();
 

@@ -8,7 +8,7 @@ public record TcgCardDto (
     String description,
     String archetype,
     String cardType,
-    long cardId,
+    String cardId,
     String imageUrl,
     List<TcgPrintDto> prints,
     Map<String,String> customData

@@ -30,7 +30,7 @@ public record YgoImportData(List<RawYgoCard> data) {
         public YgoCard basicYgoCard() {
             var card = new YgoCard();
 
-            card.setId(id);
+            card.setId(String.valueOf(id));
             card.setName(name);
             card.setType(type);
             card.setDescription(desc);

@@ -56,17 +56,17 @@ public class YgoService implements TcgService<YgoCard, YgoCardPrint> {
     }
 
     @Override
-    public Optional<YgoCardPrint> getPrint(long id) {
+    public Optional<YgoCardPrint> getPrint(String id) {
         return ygoCardPrintRepository.findById(id);
     }
 
     @Override
-    public Optional<YgoCard> getCard(long id) {
+    public Optional<YgoCard> getCard(String id) {
         return ygoCardRepository.findById(id);
     }
 
     @Override
-    public Page<YgoCardPrint> getPrints(String name, String type, Long setId, int page, int size, String sortBy, String sortDirection) {
+    public Page<YgoCardPrint> getPrints(String name, String type, String setId, int page, int size, String sortBy, String sortDirection) {
         String jpaField = SORT_MAPPING.getOrDefault(sortBy, "set.setCode");
         Sort.Direction dir = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
 

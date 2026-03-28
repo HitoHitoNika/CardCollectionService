@@ -30,7 +30,7 @@ public class BasicTcgInfoController {
     @GetMapping("{tcg}/cards/{cardId}")
     public ResponseEntity<TcgCardDto> getCards(
             @PathVariable String tcg,
-            @PathVariable long cardId
+            @PathVariable String cardId
     ){
         var service = tcgServiceHelper.getService(GameType.fromString(tcg));
 
@@ -48,7 +48,7 @@ public class BasicTcgInfoController {
     @GetMapping("{tcg}/prints")
     public ResponseEntity<Page<TcgPrintDto>> getPrints(
             @PathVariable String tcg,
-            @RequestParam(required = false) Long setId,
+            @RequestParam(required = false) String setId,
             @RequestParam(required = false) String type,
             @RequestParam(name = "name-like", required = false) String nameLike,
             @RequestParam(defaultValue = "0") int page,

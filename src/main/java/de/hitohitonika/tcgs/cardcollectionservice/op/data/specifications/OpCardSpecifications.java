@@ -18,7 +18,7 @@ public class OpCardSpecifications {
         };
     }
 
-    public static Specification<OpCard> hasSetId(Long setId) {
+    public static Specification<OpCard> hasSetId(String setId) {
         return (root, _, cb) -> {
             if (setId == null) return null;
             return cb.equal(root.get("set").get("id"), setId);

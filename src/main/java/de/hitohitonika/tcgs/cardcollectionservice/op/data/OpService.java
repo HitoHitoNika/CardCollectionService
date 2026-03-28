@@ -44,17 +44,17 @@ public class OpService implements TcgService<OpCard,OpCard> {
     }
 
     @Override
-    public Optional<OpCard> getPrint(long id){
+    public Optional<OpCard> getPrint(String id){
         return opCardRepository.findById(id);
     }
 
     @Override
-    public Optional<OpCard> getCard(long id){
+    public Optional<OpCard> getCard(String id){
         return opCardRepository.findById(id);
     }
 
     @Override
-    public Page<OpCard> getPrints(String name, String type, Long setId, int page, int size, String sortBy, String sortDirection) {
+    public Page<OpCard> getPrints(String name, String type, String setId, int page, int size, String sortBy, String sortDirection) {
         String jpaField = SORT_MAPPING.getOrDefault(sortBy, "cardCode");
         Sort.Direction dir = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
 

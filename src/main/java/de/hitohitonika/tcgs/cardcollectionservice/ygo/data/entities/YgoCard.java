@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class YgoCard implements TcgCard {
     @Id
-    private long id;
+    private String id;
 
     private String name;
 

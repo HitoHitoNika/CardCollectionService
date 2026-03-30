@@ -1,10 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.importers;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
 public class ImportOrchestrator {
     private final List<DataImporter> importers;
 

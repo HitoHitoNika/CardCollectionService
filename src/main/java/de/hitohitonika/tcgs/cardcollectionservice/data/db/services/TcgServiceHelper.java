@@ -5,13 +5,11 @@ import de.hitohitonika.tcgs.cardcollectionservice.data.TcgCard;
 import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
 @RequiredArgsConstructor
 public class TcgServiceHelper {
     private final Map<GameType, TcgService<? extends TcgCard, ? extends TcgPrint>> serviceMap = new EnumMap<>(GameType.class);

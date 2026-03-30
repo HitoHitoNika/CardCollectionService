@@ -9,12 +9,10 @@ import de.hitohitonika.tcgs.cardcollectionservice.magic.data.repositories.MagicC
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.repositories.MagicSetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-@Service
 @RequiredArgsConstructor
 public class MagicService implements TcgService<MagicCard,MagicCard> {
     private final MagicCardRepository magicCardRepository;

@@ -8,7 +8,6 @@ import de.hitohitonika.tcgs.cardcollectionservice.importers.ImportException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.util.Arrays;
@@ -17,7 +16,6 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-@Component
 @Slf4j
 public class OpImporter implements DataImporter {
     private final RestClient restClient;

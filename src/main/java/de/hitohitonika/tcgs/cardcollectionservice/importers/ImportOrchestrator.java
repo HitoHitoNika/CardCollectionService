@@ -1,5 +1,7 @@
 package de.hitohitonika.tcgs.cardcollectionservice.importers;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import java.util.List;
 
 public class ImportOrchestrator {
@@ -11,7 +13,6 @@ public class ImportOrchestrator {
 
     /**
      * Check if ANY importer already ran
-     *
      * @return true if an importer did already run
      */
     public boolean didImportAlreadyRun() {
@@ -24,6 +25,7 @@ public class ImportOrchestrator {
      * If any importer does run into an issue, the ImportOrchestrator will NOT notice.
      * Each DataImporter should handle its own errors
      */
+    @Scheduled(cron = "0 0 0 * * 0")
     public void runAllImports() {
         for (DataImporter importer : importers) {
             Thread.startVirtualThread(importer::importData);

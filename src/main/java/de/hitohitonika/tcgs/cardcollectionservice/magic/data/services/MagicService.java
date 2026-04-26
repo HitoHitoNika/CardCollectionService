@@ -7,8 +7,13 @@ import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicCard;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.entities.MagicSet;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.repositories.MagicCardRepository;
 import de.hitohitonika.tcgs.cardcollectionservice.magic.data.repositories.MagicSetRepository;
+import de.hitohitonika.tcgs.cardcollectionservice.magic.data.specifications.MagicCardSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -40,7 +45,18 @@ public class MagicService implements TcgService<MagicCard,MagicCard> {
 
     @Override
     public Page<MagicCard> getPrints(String nameLike, String type, String setId, int page, int size, String sortBy, String order) {
-        return null;
+        String jpaField = SORT_MAPPING.getOrDefault(sortBy, "name");
+        Sort.Direction dir = "desc".equalsIgnoreCase(order) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(dir, jpaField));
+
+        Specification<MagicCard> spec = ((root, query, cb) ->
+                Specification.where(MagicCardSpecifications.hasNameLike(nameLike))
+                .and(MagicCardSpecifications.hasCardType(type))
+                .and(MagicCardSpecifications.hasSetId(setId))
+                .toPredicate(root, query, cb));
+
+        return magicCardRepository.findAll(spec, pageable);
     }
 
     @Override

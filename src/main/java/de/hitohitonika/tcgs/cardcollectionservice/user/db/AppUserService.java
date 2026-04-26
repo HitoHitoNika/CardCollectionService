@@ -42,7 +42,7 @@ public class AppUserService {
 
         var userPrints = createPrintDtos.stream()
                 .map(print -> {
-                    var userPrint = print.toEntity();
+                    AppUserPrint userPrint = print.toEntity();
                     userPrint.setUser(user);
                     return userPrint;
                 })

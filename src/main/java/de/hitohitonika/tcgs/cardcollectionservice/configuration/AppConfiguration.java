@@ -23,7 +23,7 @@ public class AppConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:4200"));
+        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -51,7 +51,8 @@ public class AppConfiguration {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer::spa)
+                .csrf(CsrfConfigurer::disable)
+                //.csrf(CsrfConfigurer::spa)
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint(
                                 (_, response, _) -> response.setStatus(401)

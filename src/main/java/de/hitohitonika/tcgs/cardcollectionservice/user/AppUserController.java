@@ -5,6 +5,7 @@ import de.hitohitonika.tcgs.cardcollectionservice.user.dto.AppUserDto;
 import de.hitohitonika.tcgs.cardcollectionservice.user.db.AppUserService;
 import de.hitohitonika.tcgs.cardcollectionservice.user.dto.CreatePrintDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 @RequiredArgsConstructor
+@Slf4j
 public class AppUserController {
     private final AppUserService appUserService;
 
     @GetMapping("me")
     public ResponseEntity<AppUserDto> me(@AuthenticationPrincipal UserDetails userDetails) {
+        log.info("Me for User {}", userDetails.getUsername());
         var userDto = appUserService.mapToDto(userDetails);
 
         return ResponseEntity.ok(userDto);

@@ -1,5 +1,6 @@
 package de.hitohitonika.tcgs.cardcollectionservice.user.db;
 
+import de.hitohitonika.tcgs.cardcollectionservice.data.GameType;
 import de.hitohitonika.tcgs.cardcollectionservice.data.TcgPrint;
 import de.hitohitonika.tcgs.cardcollectionservice.data.db.services.TcgServiceHelper;
 import de.hitohitonika.tcgs.cardcollectionservice.user.dto.AppUserDto;
@@ -29,10 +30,11 @@ public class AppUserService {
     }
 
     @Transactional
-    public void createUser(String username, String password) {
+    public void createUser(String username, String password, List<GameType> gameTypes) {
         var user = new AppUser();
         user.setUsername(username);
         user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setGames(gameTypes);
         userRepository.save(user);
     }
 
